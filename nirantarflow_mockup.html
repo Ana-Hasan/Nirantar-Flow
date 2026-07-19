@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NirantarFlow — Demo Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F6F4;
+    --surface:#FFFFFF;
+    --ink:#16211D;
+    --ink-soft:#5B665F;
+    --border:#E1E4DF;
+    --teal-900:#0E3B36;
+    --teal-700:#155E56;
+    --teal-500:#1F8577;
+    --teal-100:#DCEEEA;
+    --amber-600:#B9760F;
+    --amber-100:#FBEBD3;
+    --coral-600:#B5432E;
+    --coral-100:#F8E1DC;
+    --green-600:#3E7A4E;
+    --green-100:#E1F0E4;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;
+  }
+  .brand{font-family:'Sora',sans-serif; font-weight:700; font-size:20px; letter-spacing:-0.01em; position:relative; display:inline-block;}
+  .brand::after{
+    content:""; position:absolute; left:0; bottom:-6px; width:100%; height:4px;
+    background:linear-gradient(90deg, var(--teal-500), var(--amber-600), var(--teal-500));
+    border-radius:2px; opacity:.85;
+  }
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 32px; background:var(--surface); border-bottom:1px solid var(--border);
+    position:sticky; top:0; z-index:10;
+  }
+  .brand-wrap{display:flex; align-items:center; gap:14px;}
+  .brand-sub{font-size:13px; color:var(--ink-soft); padding-top:8px; border-left:1px solid var(--border); padding-left:14px;}
+  .officer{font-size:13px; color:var(--ink-soft); text-align:right;}
+  .officer b{color:var(--ink); font-weight:600;}
+  main{max-width:900px; margin:0 auto; padding:32px 24px 80px;}
+  .screen{display:none;}
+  .screen.active{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
+
+  .stat-row{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:32px;}
+  .stat-card{background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px 18px;}
+  .stat-card .n{font-family:'Sora',sans-serif; font-size:24px; font-weight:600;}
+  .stat-card .l{font-size:12px; color:var(--ink-soft); margin-top:4px;}
+
+  h2{font-family:'Sora',sans-serif; font-size:16px; font-weight:600; margin:0 0 14px;}
+  .row-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:12px;
+    padding:16px 18px; display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:10px; cursor:pointer; transition:border-color .15s;
+  }
+  .row-card:hover{border-color:var(--teal-500);}
+  .row-left{display:flex; align-items:center; gap:14px;}
+  .avatar{width:38px; height:38px; border-radius:50%; background:var(--teal-100); color:var(--teal-900);
+    display:flex; align-items:center; justify-content:center; font-family:'Sora',sans-serif; font-weight:600; font-size:14px;}
+  .row-name{font-weight:600; font-size:14px;}
+  .row-meta{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+  .badge{font-size:12px; font-weight:600; padding:4px 10px; border-radius:999px; white-space:nowrap;}
+  .badge.amber{background:var(--amber-100); color:var(--amber-600);}
+  .badge.green{background:var(--green-100); color:var(--green-600);}
+  .badge.teal{background:var(--teal-100); color:var(--teal-700);}
+  .view-btn{font-size:13px; font-weight:600; color:var(--teal-700); background:none; border:none; cursor:pointer; padding:6px 4px;}
+
+  .back{display:flex; align-items:center; gap:6px; font-size:13px; color:var(--ink-soft); background:none; border:none; cursor:pointer; margin-bottom:18px; padding:0;}
+  .back:hover{color:var(--teal-700);}
+
+  .detail-header{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px;}
+  .detail-header .name{font-family:'Sora',sans-serif; font-size:22px; font-weight:600;}
+  .detail-header .meta{font-size:13px; color:var(--ink-soft); margin-top:4px;}
+  .loan-pill{background:var(--teal-100); color:var(--teal-900); font-size:13px; font-weight:600; padding:8px 14px; border-radius:10px;}
+
+  .card{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px; margin-bottom:18px;}
+  .card h3{font-family:'Sora',sans-serif; font-size:14px; font-weight:600; margin:0 0 14px;}
+
+  .chart-wrap{position:relative;}
+  .chart-label{position:absolute; top:6px; left:0; font-size:11px; color:var(--coral-600); font-weight:600;}
+
+  .explain-text{font-size:14px; line-height:1.6; color:var(--ink); background:var(--amber-100);
+    border-left:3px solid var(--amber-600); padding:14px 16px; border-radius:0 8px 8px 0;}
+
+  .action-card{border:1px solid var(--teal-500); background:var(--teal-100);}
+  .action-title{font-family:'Sora',sans-serif; font-weight:600; font-size:15px; color:var(--teal-900); margin-bottom:6px;}
+  .action-desc{font-size:13px; color:var(--teal-900); opacity:.85; margin-bottom:16px;}
+  .action-btns{display:flex; gap:10px; flex-wrap:wrap;}
+  .btn{font-size:13px; font-weight:600; padding:10px 18px; border-radius:8px; border:none; cursor:pointer;}
+  .btn-primary{background:var(--teal-700); color:#fff;}
+  .btn-primary:hover{background:var(--teal-900);}
+  .btn-ghost{background:#fff; color:var(--ink); border:1px solid var(--border);}
+  .btn-ghost:hover{border-color:var(--ink-soft);}
+  .approved-note{display:none; margin-top:14px; font-size:13px; color:var(--green-600); font-weight:600; align-items:center; gap:8px;}
+  .approved-note.show{display:flex;}
+
+  .audit-item{display:flex; gap:12px; font-size:13px; padding:8px 0; border-bottom:1px solid var(--border);}
+  .audit-item:last-child{border-bottom:none;}
+  .audit-time{color:var(--ink-soft); min-width:64px;}
+
+  .msg-cta{display:none;}
+  .msg-cta.show{display:inline-flex;}
+
+  .phone-wrap{display:flex; justify-content:center; padding:20px 0;}
+  .phone{width:340px; background:#ECEFEC; border-radius:28px; border:8px solid #1E241F; overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,.12);}
+  .phone-head{background:var(--teal-900); color:#fff; padding:14px 18px; display:flex; align-items:center; gap:10px;}
+  .phone-head .pa{width:32px; height:32px; border-radius:50%; background:var(--teal-500); display:flex; align-items:center; justify-content:center; font-family:'Sora',sans-serif; font-weight:600; font-size:13px;}
+  .phone-head .pn{font-size:14px; font-weight:600;}
+  .phone-head .ps{font-size:11px; opacity:.75;}
+  .chat{padding:16px; min-height:360px; display:flex; flex-direction:column; gap:10px;}
+  .bubble{max-width:80%; padding:10px 14px; border-radius:14px; font-size:13.5px; line-height:1.45;}
+  .bubble.in{background:#fff; border:1px solid var(--border); align-self:flex-start; border-bottom-left-radius:4px;}
+  .bubble.out{background:var(--green-100); color:var(--green-600); align-self:flex-end; border-bottom-right-radius:4px; font-weight:600;}
+  .bubble.sys{background:transparent; color:var(--ink-soft); font-size:11px; text-align:center; align-self:center; max-width:100%;}
+  .quick{display:flex; gap:8px; align-self:flex-start; margin-top:-2px; flex-wrap:wrap;}
+  .quick button{font-size:12.5px; font-weight:600; padding:7px 12px; border-radius:999px; border:1px solid var(--teal-500); background:#fff; color:var(--teal-700); cursor:pointer;}
+  .quick button:hover{background:var(--teal-100);}
+
+  footer.demo-nav{
+    position:fixed; bottom:0; left:0; right:0; background:var(--teal-900); color:#fff;
+    padding:10px 24px; font-size:12px; display:flex; align-items:center; justify-content:center; gap:18px;
+  }
+  footer.demo-nav span{opacity:.6;}
+  footer.demo-nav button{background:none; border:none; color:#fff; font-size:12px; cursor:pointer; opacity:.85; padding:4px 8px;}
+  footer.demo-nav button.on{opacity:1; text-decoration:underline;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-wrap">
+    <span class="brand">NirantarFlow</span>
+    <span class="brand-sub">Rural lending — monitoring dashboard</span>
+  </div>
+  <div class="officer"><b>Ramesh Kumar</b><br>Loan Officer · Nashik cluster</div>
+</header>
+
+<main>
+
+  <section class="screen active" id="screen-dashboard">
+    <div class="stat-row">
+      <div class="stat-card"><div class="n">312</div><div class="l">Active loans monitored</div></div>
+      <div class="stat-card"><div class="n">4</div><div class="l">Flags this week</div></div>
+      <div class="stat-card"><div class="n">58</div><div class="l">EMI adjustments this month</div></div>
+      <div class="stat-card"><div class="n">15 days</div><div class="l">Average lead time</div></div>
+    </div>
+
+    <h2>Needs attention</h2>
+
+    <div class="row-card" onclick="showScreen('detail')">
+      <div class="row-left">
+        <div class="avatar">MS</div>
+        <div>
+          <div class="row-name">Meena Sharma</div>
+          <div class="row-meta">Loan #RB-2291 · Vegetable cart, Nashik · ₹15,000</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:14px;">
+        <span class="badge amber">Moderate stress</span>
+        <button class="view-btn">View →</button>
+      </div>
+    </div>
+
+    <div class="row-card">
+      <div class="row-left">
+        <div class="avatar">PY</div>
+        <div>
+          <div class="row-name">Prakash Yadav</div>
+          <div class="row-meta">Loan #RB-1187 · Tailoring, Nashik · ₹22,000</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:14px;">
+        <span class="badge teal">EMI adjusted — this cycle</span>
+        <button class="view-btn">View →</button>
+      </div>
+    </div>
+
+    <div class="row-card">
+      <div class="row-left">
+        <div class="avatar">SK</div>
+        <div>
+          <div class="row-name">Sunita Kale</div>
+          <div class="row-meta">Loan #RB-3042 · Dairy, Sinnar · ₹18,500</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:14px;">
+        <span class="badge green">On track</span>
+        <button class="view-btn">View →</button>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="screen" id="screen-detail">
+    <button class="back" onclick="showScreen('dashboard')">← Back to dashboard</button>
+
+    <div class="detail-header">
+      <div>
+        <div class="name">Meena Sharma</div>
+        <div class="meta">Vegetable cart owner · Nashik district · Loan #RB-2291</div>
+      </div>
+      <div class="loan-pill">₹15,000 · 7 of 10 cycles remaining</div>
+    </div>
+
+    <div class="card">
+      <h3>Cash flow forecast — next 30 days</h3>
+      <div class="chart-wrap">
+        <span class="chart-label">Predicted shortfall in 16 days</span>
+        <svg width="100%" viewBox="0 0 800 220" style="margin-top:20px;">
+          <polygon points="0,120 100,110 200,95 300,105 400,150 500,175 600,160 700,120 800,110 800,190 0,190"
+                   fill="#DCEEEA" opacity="0.6"/>
+          <polyline points="0,140 100,130 200,115 300,120 400,165 500,190 600,175 700,140 800,130"
+                     fill="none" stroke="#155E56" stroke-width="2.5"/>
+          <line x1="380" y1="10" x2="380" y2="210" stroke="#B5432E" stroke-width="1" stroke-dasharray="4 4"/>
+          <rect x="330" y="140" width="140" height="55" fill="#F8E1DC" opacity="0.7" rx="4"/>
+          <circle cx="500" cy="190" r="4" fill="#B5432E"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Why this was flagged</h3>
+      <p class="explain-text">Her income is trending down mainly because mandi prices for her produce fell 15% over the last 10 days — this is a market shock, not a change in her own spending behaviour.</p>
+    </div>
+
+    <div class="card action-card">
+      <div class="action-title">Recommended action</div>
+      <div class="action-desc">Pause one repayment cycle. Total amount owed stays the same — the missed instalment is added to the end of the loan term.</div>
+      <div class="action-btns">
+        <button class="btn btn-primary" onclick="approveAction()">Approve</button>
+        <button class="btn btn-ghost">Modify</button>
+        <button class="btn btn-ghost">Dismiss</button>
+      </div>
+      <div class="approved-note" id="approved-note">
+        ✓ Approved — borrower has been notified
+        <button class="btn btn-ghost msg-cta" id="msg-cta" onclick="showScreen('chat')">View message sent →</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Audit trail</h3>
+      <div class="audit-item"><span class="audit-time">Nov 3</span><span>Stress flag raised — moderate confidence</span></div>
+      <div class="audit-item"><span class="audit-time">Nov 3</span><span>Explanation generated — market shock identified</span></div>
+      <div class="audit-item"><span class="audit-time">Nov 3</span><span>Loan officer Ramesh Kumar reviewed</span></div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-chat">
+    <button class="back" onclick="showScreen('detail')">← Back to borrower detail</button>
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="phone-head">
+          <div class="pa">NF</div>
+          <div>
+            <div class="pn">NirantarFlow</div>
+            <div class="ps">via WhatsApp Business</div>
+          </div>
+        </div>
+        <div class="chat">
+          <div class="bubble sys">Consent given at loan disbursement · Oct 12</div>
+          <div class="bubble in">Hi Meena, your income looks a little lower than usual this week. Would a short pause on this month's payment help?</div>
+          <div class="quick">
+            <button>Yes, pause</button>
+            <button>I'm okay</button>
+          </div>
+          <div class="bubble out">Yes, pause</div>
+          <div class="bubble in">Done — this month's payment is paused. The total amount you owe hasn't changed, it's just added to the end of your loan. You'll get a reminder before your next payment.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="demo-nav">
+  <span>Demo navigation:</span>
+  <button id="nav-dashboard" class="on" onclick="showScreen('dashboard')">1 · Dashboard</button>
+  <button id="nav-detail" onclick="showScreen('detail')">2 · Borrower detail</button>
+  <button id="nav-chat" onclick="showScreen('chat')">3 · Borrower message</button>
+</footer>
+
+<script>
+  function showScreen(name){
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + name).classList.add('active');
+    document.querySelectorAll('.demo-nav button').forEach(b => b.classList.remove('on'));
+    document.getElementById('nav-' + name).classList.add('on');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  function approveAction(){
+    document.getElementById('approved-note').classList.add('show');
+    document.getElementById('msg-cta').classList.add('show');
+  }
+</script>
+
+</body>
+</html>
